@@ -4,18 +4,18 @@ version '1.0'
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()                                      // CHANGED: jcenter() → mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:8.7.0'    // CHANGED: 4.1.0 → 8.7.0
     }
 }
 
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()                                      // CHANGED: jcenter() → mavenCentral()
         maven { url "https://jitpack.io" }
     }
 
@@ -24,31 +24,27 @@ rootProject.allprojects {
             options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
         }
     }
-
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'                              // ADDED: needed for AGP 9
 
 android {
-    compileSdkVersion 33
-    
+    compileSdk 36                                           // CHANGED: compileSdkVersion 33 → compileSdk 36
+
     namespace 'dev.bessems.usbserial'
 
     defaultConfig {
-        minSdkVersion 16
+        minSdk 21                                           // CHANGED: 16 → 21 (Flutter 3.47 min)
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    lintOptions {
-        disable 'InvalidPackage'
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17          // CHANGED: 1.8 → 17
+        targetCompatibility JavaVersion.VERSION_17          // CHANGED: 1.8 → 17
+    }
 }
 
 dependencies {
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
 }
-
